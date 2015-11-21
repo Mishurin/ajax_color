@@ -3,7 +3,7 @@ var APP  = (function (app) {
     var requestList = [];
     var randomColors = app.getRandomColorArray(5);
 
-    var _add = function(obj){
+    var _register = function(obj){
         return requestList.push(obj);
     };
 
@@ -11,50 +11,37 @@ var APP  = (function (app) {
         return requestList.length;
     };
 
-    var _get = function(index){
-        if(index > -1 && index < requestList.length){
-            return requestList[index];
-        }
-    };
-
-    var _indexOf = function(obj, startIndex){
-        var i = startIndex;
-
-        while(i < requestList.length){
-            if(requestList === obj){
-                return i;
-            }
-            i++;
-        }
-        return -1;
-    };
-
-    var _removeAt = function(index){
+    var _deregisterAt = function(index){
         requestList.splice(index, 1);
     };
 
-    var _successCallback = function (payload) {
-        document.body.style.backgroundColor = payload.color;
+    var _successCallback = function (data) {
+        var serverColor = data.payload.color;
+        var indexOfCurrentRequest = requestList.indexOf(this);
+        _deregisterAt(indexOfCurrentRequest);
+        if(!_count()) {
+            document.body.style.backgroundColor = serverColor;
+        }
     };
 
     var _errorCallback = function (err) {
-        console.log('Request Error:', err);
+        _deregisterAt(requestList.indexOf(this));
     };
 
     var _doRequest = function () {
         var currentRandomColor = app.getRandomArrayItem(randomColors);
-        app.ajax.post({color: currentRandomColor}, _successCallback, _errorCallback);
-        _add({
-            color: currentRandomColor,
-            date: new Date()
-        });
+        
+        _register(app.ajax.post({
+            color: currentRandomColor
+        }, _successCallback, _errorCallback));
+
     };
 
     var _init = function() {
         window.onresize = app.throttle(function() {
             _doRequest();
         }, 1000);
-
     };
+
     window.onload = _init;
 })(APP || {});
