@@ -20,7 +20,8 @@ var APP  = (function (app) {
                     console.log('OK');
                     _this.cb({
                         payload: {
-                            color: _this.params.color
+                            color: _this.params.color,
+                            size: _this.params.width + ':' + _this.params.height
                         }
                     });
                     worker.terminate();
