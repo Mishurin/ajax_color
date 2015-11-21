@@ -9,7 +9,7 @@ var APP  = (function (app) {
     };
 
     Request.prototype.send = function () {
-        var worker = new Worker('javascripts/sleep.js'),
+        var worker = new Worker('javascripts/delay.js'),
             _this = this;
         worker.addEventListener('message', function (e) {
             switch (e.data) {
