@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.1.5",
-  "description": "A sample Node.js app using Express 4",
+  "name": "ajax-color",
+  "version": "0.0.1",
+  "description": "Change background color with AJAX",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
