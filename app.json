@@ -1,0 +1,6 @@
+{
+  "name": "AJAX Color",
+  "description": "AJAX Color",
+  "repository": "https://github.com/Mishurin/ajax_color.git",
+  "keywords": ["node", "express", "static"]
+}
