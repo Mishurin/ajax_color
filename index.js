@@ -1,12 +1,12 @@
-console.log("starting");
-var port = process.env.PORT || 5000;
-process.env.PWD = process.cwd()
-
-var express = require("express");
+var express = require('express');
 var app = express();
 
-app.use(express.static(process.env.PWD));
-app.get("/", function(request, response) {
-	response.send("Hello SVS!");
+app.set('port', (process.env.PORT || 5000));
+
+app.use(express.static(__dirname + '/public'));
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
-app.listen(port);
+
+
