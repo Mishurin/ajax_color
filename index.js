@@ -9,10 +9,14 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/colors-and-size', function (req, res, next) {
-  res.send({
-    date: new Date(),
-    payload: req.body
-  });
+  var randomDelay = Math.floor(Math.random()* 2 + 1000);
+  setTimeout(function () {
+    res.send({
+      date: new Date(),
+      payload: req.body
+    });
+  }, randomDelay);
+
 });
 
 app.listen(app.get('port'), function() {
