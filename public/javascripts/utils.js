@@ -32,6 +32,22 @@ var APP  = (function (app) {
         return wrapper;
     };
 
+    app.debounce = function(f, ms) {
+        var state = null;
+
+        var COOLDOWN = 1;
+
+        return function() {
+            if (state) return;
+
+            f.apply(this, arguments);
+
+            state = COOLDOWN;
+
+            setTimeout(function() { state = null }, ms);
+        }
+    }
+
     app.getRandomColor = function () {
 
         var letters = '0123456789ABCDEF'.split('');

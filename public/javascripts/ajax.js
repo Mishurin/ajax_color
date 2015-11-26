@@ -4,7 +4,7 @@ var APP  = (function (app) {
 
     app.ajax.post = function (params, cb, errb) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', app.config.ECHO_SERVER_REMOTE_URL, true);
+        xhr.open('POST', app.config.ECHO_SERVER_URL, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {

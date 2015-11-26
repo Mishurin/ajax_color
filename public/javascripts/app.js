@@ -1,48 +1,36 @@
 var APP  = (function (app) {
 
-    var requestList = [];
-
     var randomColors = app.getRandomColorArray(5);
 
     var resultTag = null;
 
-    var _register = function(obj){
-        return requestList.push(obj);
-    };
-
-    var _count = function(){
-        return requestList.length;
-    };
-
-    var _deregisterAt = function(index){
-        requestList.splice(index, 1);
-    };
+    var req = null;
 
     var _successCallback = function (data, xhr) {
         var payload = data.payload;
         var serverColor = payload.color,
             width = payload.width,
             height = payload.height;
-        var indexOfCurrentRequest = requestList.indexOf(xhr);
-        _deregisterAt(indexOfCurrentRequest);
-        if(!_count()) {
-            document.body.style.backgroundColor = serverColor;
-            resultTag.innerHTML = width + "x" + height;
-        }
+        document.body.style.backgroundColor = serverColor;
+        resultTag.innerHTML = width + "x" + height;
+        req = null;
     };
 
+
     var _errorCallback = function (err, xhr) {
-        _deregisterAt(requestList.indexOf(xhr));
+        req = null;
     };
 
     var _doRequest = function () {
         var currentRandomColor = app.getRandomArrayItem(randomColors);
-        
-        _register(app.ajax.post({
+
+        if(req) req.abort();
+
+        req = app.ajax.post({
             color: currentRandomColor,
             height: window.innerHeight,
             width: window.innerWidth
-        }, _successCallback, _errorCallback));
+        }, _successCallback, _errorCallback)
 
     };
 
