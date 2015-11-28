@@ -4,7 +4,6 @@ var APP  = (function (app) {
 
     var resultTag = null;
 
-    var req = null;
 
     var _successCallback = function (data, xhr) {
         var payload = data.payload;
@@ -13,30 +12,29 @@ var APP  = (function (app) {
             height = payload.height;
         document.body.style.backgroundColor = serverColor;
         resultTag.innerHTML = width + "x" + height;
-        req = null;
     };
 
 
     var _errorCallback = function (err, xhr) {
-        req = null;
+        console.log(err, xhr);
     };
 
     var _doRequest = function () {
+
         var currentRandomColor = app.getRandomArrayItem(randomColors);
 
-        if(req) req.abort();
 
-        req = app.ajax.post({
+        app.ajax.post({
             color: currentRandomColor,
             height: window.innerHeight,
             width: window.innerWidth
-        }, _successCallback, _errorCallback)
+        }, _successCallback, _errorCallback);
 
     };
 
     var _init = function() {
         resultTag = document.getElementById('result');
-        window.onresize = app.throttle(function() {
+        window.onresize = app.debounce(function() {
             _doRequest();
         }, 1000);
     };
